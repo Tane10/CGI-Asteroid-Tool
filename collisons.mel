@@ -1,0 +1,111 @@
+////////////////////// this is the experssion ////////////////////
+
+// that reads the collsions and print them out
+// get atturbite of coltions count and print sit out
+int $state = `getAttr "rigidBody2.cct"`;
+print $state;
+
+
+// if the colision is more then 1 it shatters obj and turns colliolns on with the shards
+if($state >= 1)
+{
+
+   select pCube1;
+   delete -ch;
+	solidShatter("solidShatter", 3,1,1,0,0,0.5,0,3,"rigid bodies with collisions off",0,0);
+
+}
+/////////////////////////////////////////////////////////////////
+
+
+///////////// changes all rigidBodies collioson on /////////////
+
+// stateing i as int
+int $i;
+
+// for loop which 
+for($i=1;$i<5;$i++)
+{
+    string $name;
+    $name="rigidBody"+(string)$i+".collisions";
+    
+    string $attr;
+    $whatever="getAttr "+$name;
+    
+    if($attr!="1")
+    {
+        setAttr $name 1;
+    }
+    else
+    {
+        print "nope";
+    }    
+}
+
+//////////////////////////////////////////////////////////////
+
+
+
+// gets the velo of (X,Y,Z) and save as int instead of float 
+int $veloX_orig = `getAttr rigidBody1.initialVelocityX`;
+int $veloY_orig = `getAttr rigidBody1.initialVelocityY`;
+int $veloZ_orig = `getAttr rigidBody1.initialVelocityZ`;
+
+// gets velocity of (X,Y,Z) of the crack and saves as int instead of float;
+int $veloX_crack = `getAttr rigidBody2.initialVelocityX`;
+int $veloY_crack = `getAttr rigidBody2.initialVelocityY`;
+int $veloZ_crack = `getAttr rigidBody2.initialVelocityZ`;
+
+// creates an laterial array with 3 elements that are the (X,Y,Z) of the crack
+int $velo_crack1[3] = {$veloX_crack,$veloY_crack,$veloZ_crack};
+
+// creates an laterial array with 3 elements that are the (X,Y,Z) of the origanl
+int $velo_orig[3] = {$veloX_orig,$veloY_orig,$veloZ_orig};
+
+
+
+
+
+
+
+
+
+
+// creates a active rigidBody on any object you state in ""
+rigidBody -active -m 1 -dp 0 -sf 0.2 -df 0.2 -b 0.6 -l 0 -tf 200 -iv 0 0 0 -cl 1 "pcube1";
+
+
+// gets the velocity of rigidBody1 (state what rigidBody you would like)
+// arry is not in a lateral view (it is aranged vertical not horzontal)
+// of the orgaianl obj before crack
+float $original =  `getAttr rigidBody1.vel`;  
+
+// the velocity of the crack obj
+// not all peaces
+float $crack = `getAttr rigidBody2.vel`;
+/*
+// gets the velo of (X,Y,Z) and save as int instead of float 
+int $veloX_orig = `getAttr rigidBody1.initialVelocityX`;
+int $veloY_orig = `getAttr rigidBody1.initialVelocityY`;
+int $veloZ_orig = `getAttr rigidBody1.initialVelocityZ`;
+
+// gets velocity of (X,Y,Z) of the crack and saves as int instead of float;
+int $veloX_crack = `getAttr rigidBody2.initialVelocityX`;
+int $veloY_crack = `getAttr rigidBody2.initialVelocityY`;
+int $veloZ_crack = `getAttr rigidBody2.initialVelocityZ`;
+
+// creates an laterial array with 3 elements that are the (X,Y,Z) of the crack
+int $velo_crack1[3] = {$veloX_crack,$veloY_crack,$veloZ_crack};
+
+// creates an laterial array with 3 elements that are the (X,Y,Z) of the origanl
+int $velo_orig[3] = {$veloX_orig,$veloY_orig,$veloZ_orig};
+
+if("rigidBody2.initialVelocityY" != "rigidBody1.initialVelocityY")
+{
+    setAttr "rigidBody2.initialVelocityY" $veloZ_orig;
+}
+else
+{
+    print "not faster";
+}
+*/
